@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #ff9a9e, #fad0c4);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    width: 360px;
+    padding: 35px 30px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(14px);
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: fadeIn 0.6s ease;
+    z-index: 2;
+}
+
+h1 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #fff;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes {
+    background: linear-gradient(135deg, #ff4d6d, #ff758f);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(255,77,109,0.4);
+}
+
+.yes:hover {
+    transform: scale(1.1);
+}
+
+/* NO BUTTON */
+.no {
+    position: fixed;
+    background: #222;
+    color: #fff;
+    z-index: 5;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Name Card -->
+<div class="card" id="nameCard">
+    <h1>What's your name? 💕</h1>
+    <input type="text" id="nameInput" placeholder="Enter name">
+    <br>
+    <button class="yes" onclick="start()">Continue</button>
+</div>
+
+<!-- Question Card -->
+<div class="card hidden" id="questionCard">
+    <h1 id="questionText"></h1>
+    <button class="yes" onclick="sayYes()">YES 💖</button>
+</div>
+
+<!-- Love Card -->
+<div class="card hidden" id="loveCard">
+    <h1>❤️ I Love You ❤️</h1>
+    <p>You made my day special 💘</p>
+</div>
+
+<!-- NO BUTTON (Outside Card for Full Screen Jump) -->
+<button class="no hidden" id="noBtn">NO 😜</button>
+
+<script>
+const nameCard = document.getElementById("nameCard");
+const questionCard = document.getElementById("questionCard");
+const loveCard = document.getElementById("loveCard");
+const questionText = document.getElementById("questionText");
+const noBtn = document.getElementById("noBtn");
+
+function start() {
+    const name = document.getElementById("nameInput").value.trim();
+    if (!name) {
+        alert("Please enter your name 😊");
+        return;
+    }
+    nameCard.classList.add("hidden");
+    questionCard.classList.remove("hidden");
+    noBtn.classList.remove("hidden");
+
+    questionText.innerText = `${name}, will you be my Valentine? 💘`;
+    moveNoButton();
+}
+
+function sayYes() {
+    questionCard.classList.add("hidden");
+    noBtn.classList.add("hidden");
+    loveCard.classList.remove("hidden");
+}
+
+/* MAGIC: NO BUTTON NEVER CLICKABLE */
+function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - 10;
+    const maxY = window.innerHeight - btnHeight - 10;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+/* Mouse paas aate hi bhaag jaaye 😈 */
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("mousemove", moveNoButton);
+</script>
+
+</body>
+</html>
